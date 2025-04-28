@@ -1,6 +1,7 @@
  
 
-# ES-dev-framework
+# ES-dev-framework 
+
 Mobile / Web Development Framework for Flutter
 
 
@@ -11,4 +12,9 @@ Mobile / Web Development Framework for Flutter
 3. Add this framework, under the name z7n_framework, to that same folder; 
 
 # Additional information
+
 * This project was built for flutter version 3.30.0;
+
+# Future steps
+
+* Integrate with [Melos](https://melos.invertase.dev) to manage setup automatically;

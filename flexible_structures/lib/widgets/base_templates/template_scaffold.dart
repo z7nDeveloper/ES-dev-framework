@@ -276,6 +276,7 @@ class TemplateScaffold extends StatelessWidget {
       bodyWidget = Framework.templateDefaults.body.bodyWrapper!(context, bodyWidget);
     }
 
+    // screenshotTaker.wrapWithScreenshot
     return Scaffold(
       bottomNavigationBar: footer == null ? null : Container(
 

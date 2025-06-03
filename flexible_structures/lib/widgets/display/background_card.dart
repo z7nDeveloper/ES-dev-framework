@@ -10,6 +10,7 @@ class BackgroundCard extends StatelessWidget {
   final double? height;
   const BackgroundCard({Key? key, required this.child, this.color, this.width, this.height, this.opacity,}) : super(key: key);
 
+  static bool useMoreShadows = false;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -29,6 +30,13 @@ class BackgroundCard extends StatelessWidget {
                     spreadRadius: 2,
                     blurRadius: 4,
                     offset: Offset(0, 3),
+                  ),
+                  if(useMoreShadows)
+                  BoxShadow(
+                    color: Colors.grey,
+                    spreadRadius: 2,
+                    blurRadius: 4,
+                    offset: Offset(0, 1),
                   ),
                 ],
                 borderRadius: BorderRadius.all(

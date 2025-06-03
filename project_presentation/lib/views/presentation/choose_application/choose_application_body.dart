@@ -1,3 +1,4 @@
+import 'package:common_extensions/extensions/ui/for_build_context.dart';
 import 'package:flexible_structures/responsive/media_queries.dart';
 import 'package:flexible_structures/widgets/animations/opacity_animation.dart';
 import 'package:flexible_structures/widgets/display/text_exhibition_container.dart';
@@ -60,13 +61,23 @@ class ChooseApplicationBody extends StatelessWidget {
         quadrupleFlex:
         useLimitedVersion ?
         QuadrupleFlex(0,4,0,0) :
-        QuadrupleFlex(
-            1,3, 0, 1
-        ),
+       (
+           context.width > 1530 ?
+               QuadrupleFlex(
+                 1,3,0,1
+               ) :
+           context.width > 1440 ?
+           QuadrupleFlex(
+               1,4,0,1
+           ) :
+           QuadrupleFlex(
+            1,7, 0, 1
+        )),
         appbarEndAppending: ReportIconButton(possibleErrors: [],),
 
         bodyLeft: Container(
           color:
+              false &&
           useLimitedVersion ?
           Colors.red :
           null
@@ -92,17 +103,22 @@ class ChooseApplicationBody extends StatelessWidget {
                     buttonUtility: buttonUtility),
               ),
               Container(
-                height: 64,
+                height:
+                isMobile() ? 70 :
+                64,
                 child: ChooseApplicationFooter(),
               )
             ],
           ),
         ),
-        bodyPadding: EdgeInsets.only(bottom:  12,
+        bodyPadding: EdgeInsets.only(bottom:  6,
         ),
         actionsRight:
         isTablet()
             ? Container() :
+            isMobile() ?
+                Container()
+                :
         ApplicationOptionDescriptionCard(),
 
       ),);
@@ -213,9 +229,15 @@ class ChooseApplicationOptionsPresentation extends StatelessWidget {
       //crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // MaxGap(64),
-        Expanded(
 
-            child: Center(child: AppLogo())),
+        isMobile() ? AppLogo(
+          itemSize: isMobile() ? ItemSize.almostNormal : ItemSize.normal,
+        ) :
+        Flexible(
+
+            child: Center(child: AppLogo(
+              itemSize: isMobile() ? ItemSize.almostNormal : ItemSize.normal,
+            ))),
 
         /* DiagonalDesignEntranceButtons(buttonUtility: buttonUtility,
             entranceActions: entranceActions),*/
@@ -223,73 +245,80 @@ class ChooseApplicationOptionsPresentation extends StatelessWidget {
 
 
         Expanded(
-          child: Container(
-            alignment: Alignment.center,
+          child: Padding(
+            padding:
+            isMobile()?
+            const EdgeInsets.only(top: 8.0) : EdgeInsets.zero,
+            child: Center(
+              child: Container(
+                alignment: Alignment.center,
 
-            /**/child: EntranceButtons(
-            optionStyling: ApplicationOptionStyling(
-                getBackIcon: (ApplicationOption option) {
-                  Widget icon = EntranceActionIcon(
-                    configuration: configuration,
-                    child:
-                    (option.icon.render()),
-                  );
+                /**/child: EntranceButtons(
+                optionStyling: ApplicationOptionStyling(
+                    getBackIcon: (ApplicationOption option) {
+                      Widget icon = EntranceActionIcon(
+                        configuration: configuration,
+                        child:
+                        (option.icon.render()),
+                      );
 
 
-                  /*if (option.description != null &&
-                      option.description!.isNotEmpty) {
-                    icon = Tooltip(
-                      message: option.description!,
-                      child: icon,
-                    );
-                  }*/
+                      /*if (option.description != null &&
+                          option.description!.isNotEmpty) {
+                        icon = Tooltip(
+                          message: option.description!,
+                          child: icon,
+                        );
+                      }*/
 
-                  return icon;
-                },
-                getIcon: (ApplicationOption option) {
+                      return icon;
+                    },
+                    getIcon: (ApplicationOption option) {
 
-                  if(option.isLocked) {
-                    return GraphicalItem(
-                        item: Icons.lock,
-                        type: Graphical.icon,
-                        info: {
-                          'color': Colors.blue,
-                          'size': configuration.iconSize * 1.5,
-                        }
-                    ).render();
-                  }
-                  option.icon.info?['size'] ??= configuration.iconSize;
-
-                  Widget icon = option.appState == ApplicationState.onProgress ?
-                  GraphicalItem(
-                      item: Icons.construction,
-                      type: Graphical.icon,
-                      info: {
-                        'color': Colors.blue,
-                        'size': configuration.iconSize * 1.5,
+                      if(option.isLocked) {
+                        return GraphicalItem(
+                            item: Icons.lock,
+                            type: Graphical.icon,
+                            info: {
+                              'color': Colors.blue,
+                              'size': configuration.iconSize * 1.5,
+                            }
+                        ).render();
                       }
-                  ).render() : EntranceActionIcon(
-                    configuration: configuration,
-                    child:
-                    (option.icon.render(
-                        color:
-                        GetIt.I.get<FlexibleThemeColors>().getBlack()
+                      option.icon.info?['size'] ??= configuration.iconSize;
 
-                    )),
-                  );
-                  return icon;
-                  return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        /**/
-                        icon
-                      ]
-                  );
-                }
+                      Widget icon = option.appState == ApplicationState.onProgress ?
+                      GraphicalItem(
+                          item: Icons.construction,
+                          type: Graphical.icon,
+                          info: {
+                            'color': Colors.blue,
+                            'size': configuration.iconSize * 1.5,
+                          }
+                      ).render() : EntranceActionIcon(
+                        configuration: configuration,
+                        child:
+                        (option.icon.render(
+                            color:
+                            GetIt.I.get<FlexibleThemeColors>().getBlack()
 
+                        )),
+                      );
+                      return icon;
+                      return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            /**/
+                            icon
+                          ]
+                      );
+                    }
+
+                ),
+                entranceActions: entranceActions, buttonUtility: buttonUtility,
+              ),
+              ),
             ),
-            entranceActions: entranceActions, buttonUtility: buttonUtility,
-          ),
           ),
         ),
 

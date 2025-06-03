@@ -44,8 +44,8 @@ DeviceType screenModelBasedOnWidth({context, double? width}) {
       ? MediaQuery.of(context).size.width
       : MediaQueryData.fromView(WidgetsBinding.instance.window).size.width;
 
-
-  if (width >= 1024) {
+  final desktopSize = 1220;
+  if (width >= desktopSize) {
     return DeviceType.desktop;
   }
 

@@ -579,7 +579,10 @@ class _ButtonShape extends StatelessWidget {
       button = Stack(
         children: [
           button,
-          buttonUpStack,
+          IgnorePointer(
+
+            child: buttonUpStack
+          ),
         ],
       );
     }

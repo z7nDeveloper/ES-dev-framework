@@ -1,6 +1,7 @@
 
 
 
+import 'package:flexible_structures/responsive/media_queries.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -30,6 +31,7 @@ class AboutZ7NCard extends StatelessWidget {
         width: context.width,
       //  height: 60,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
@@ -46,7 +48,9 @@ class AboutZ7NCard extends StatelessWidget {
                   child: SvgPicture.asset(
                     'assets/Z7N_Logo.svg',
                     semanticsLabel: 'Z7N Logo',
-                    height: 40,
+                    height:
+                    isMobile() ? 30 :
+                    40,
                   ),
                 ),
                 Padding(padding: EdgeInsets.all(2)),

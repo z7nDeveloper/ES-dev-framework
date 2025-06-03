@@ -255,16 +255,20 @@ class _DiamondCheckboxState extends State<DiamondCheckbox> {
 
   @override
   Widget build(BuildContext context) {
+
     return widget.favorableItem.favorite ?
-    Clickable(
-      onPress: changeFavorited,
-      child: Transform.rotate(angle: 45.0.toRadians(),
-        child: Container(
-          width: 18,
-          height: 18,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            color: Colors.yellow,
+    Transform.translate(
+      offset:Offset(-10, -0),
+      child: Clickable(
+        onPress: changeFavorited,
+        child: Transform.rotate(angle: 45.0.toRadians(),
+          child: Container(
+            width: 18,
+            height: 18,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4),
+              color: Colors.yellow,
+            ),
           ),
         ),
       ),
@@ -272,7 +276,7 @@ class _DiamondCheckboxState extends State<DiamondCheckbox> {
         :
     Checkbox(value: widget.favorableItem.favorite,
       fillColor: WidgetStatePropertyAll(
-        widget.useDisabledStyle ? GetIt.I.get<FlexibleThemeColors>().getBlack() :
+      //  widget.useDisabledStyle ? GetIt.I.get<FlexibleThemeColors>().getBlack() :
             GetIt.I.get<FlexibleThemeColors>().getAppBackgroundColor()
       ),
       side: BorderSide(

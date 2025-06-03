@@ -84,11 +84,25 @@ Widget renderIcon(GraphicalItem item,
             width: size,
             height: size,
             color: color,
+            errorBuilder: item.info?['errorWidget'] ??
+                (_,__,___){
+              return Container();
+            } ,
           );
 
       break;
     case Graphical.image:
-      element = Image.asset(item.item);
+      element = Container(
+        height: item.info?['height'],
+        child: Image.asset(item.item,
+          fit: item.info?['fit'],
+          errorBuilder:
+              item.info?['errorWidget'] ??
+              (_,__,___){
+            return Container();
+          },
+        ),
+      );
   }
 
   return Padding(

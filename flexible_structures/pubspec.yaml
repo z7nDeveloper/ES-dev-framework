@@ -20,12 +20,20 @@ dependencies:
   get_it: ^7.6.4
 
 
+  # Components
+  sign_button: ^2.0.6
+
   # State management dependencies
   flutter_bloc: ^8.0.0
 
+  # Forms dependencies
+  reactive_forms: ^17.0.1
+
+
   common_extensions:
     path: ../common_extensions
-
+  request_states:
+    path: ../request_states
 
 dev_dependencies:
   flutter_test:

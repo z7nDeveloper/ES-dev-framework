@@ -40,6 +40,7 @@ class IconActionCardButton extends StatelessWidget {
 
   final double? height;
 
+  final tooltip;
   const IconActionCardButton({
     Key? key,
     required this.content,
@@ -49,6 +50,7 @@ class IconActionCardButton extends StatelessWidget {
     this.desktopSize,
     this.mobileSize,
     this.backgroundOnlyParent,
+    this.tooltip,
     required this.onPress,
     this.pressEnabled,
     this.padsContentFromStack=false,
@@ -105,7 +107,7 @@ class IconActionCardButton extends StatelessWidget {
 
     double cardHeight = height ?? (iconSize == null ? 34.0 : (iconSize! + 8.0));
     Widget body =  CardButtonV1(
-      tooltip: content,
+      tooltip: tooltip  ?? content,
 
       backgroundOnlyParent: backgroundOnlyParent,
       buttonSize: itemSize,
@@ -114,6 +116,7 @@ class IconActionCardButton extends StatelessWidget {
       height: CardDimension(size: cardHeight),
       borderColor: borderColor,
       borderShape: borderShape,
+        rowMainAlignment: MainAxisAlignment.center,
       width: CardDimension(multiply: numberOfIcons,
       size: cardWidth
       ),

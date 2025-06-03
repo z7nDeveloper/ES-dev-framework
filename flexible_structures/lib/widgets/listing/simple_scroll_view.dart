@@ -8,8 +8,10 @@ class SimpleScrollView extends StatefulWidget {
   final Widget child;
   final Axis scrollDirection;
   final EdgeInsets scrollPadding;
+  final ScrollController? controller;
   const SimpleScrollView({super.key, required this.child,
   required this.scrollPadding,
+    this.controller,
   this.scrollDirection=Axis.vertical});
 
   @override
@@ -24,6 +26,9 @@ class _SimpleScrollViewState extends State<SimpleScrollView> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+
+    scrollController = widget.controller?? scrollController;
   }
 
   @override

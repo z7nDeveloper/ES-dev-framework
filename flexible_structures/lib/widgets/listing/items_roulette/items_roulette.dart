@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flexible_structures/widgets/base_templates/buttons/icon_action_card_button.dart';
 import 'package:flexible_structures/widgets/interactions/opacity_on_hover.dart';
 import 'package:flexible_structures/widgets/interactions/scale_on_hover.dart';
+import 'package:flexible_structures/widgets/interactions/swipe_detector.dart';
 import 'package:flexible_structures/widgets/listing/items_roulette/bloc/items_roulette_bloc.dart';
 import 'package:flexible_structures/widgets/listing/items_roulette/item_roulette_button.dart';
 import 'package:flexible_structures/widgets/listing/items_roulette/item_roulette_card_item.dart';
@@ -14,6 +15,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 enum RouletteItemStyle {
   expandedCard,
+}
+
+enum RouletteType {
+  horizontal,
+  vertical
 }
 
 class ItemsRoulette<T> extends StatefulWidget {
@@ -39,11 +45,16 @@ class ItemsRoulette<T> extends StatefulWidget {
   final bool useLeftAndRightAnimations;
   final EdgeInsets? internalContentPadding;
   final bool showNextItemsAsPreview;
+  final String? emptyCase;
+
+  final RouletteType rouletteType;
+
 
   const ItemsRoulette({
     super.key,
     this.itemsAtATime = 2,
     this.movementBloc,
+    this.emptyCase,
     this.provideFixating = false,
     this.isInfinite = false,
     this.showNextItemsAsPreview = false,
@@ -59,6 +70,7 @@ class ItemsRoulette<T> extends StatefulWidget {
     this.alignment,
     this.onItemClicked,
     this.internalContentPadding,
+    this.rouletteType=RouletteType.horizontal,
   });
 
   @override
@@ -233,6 +245,43 @@ class _ItemsRouletteState<T> extends State<ItemsRoulette<T>> {
     return BlocBuilder<ItemsMovementRouletteBloc, int>(
       bloc: movementBloc,
       builder: (context, state) {
+
+        if(widget.rouletteType == RouletteType.vertical) {
+
+          List<Widget> children = getRouletteChildren(trackItemSize);
+
+          return SwipeDetector(
+            onSwipeDown: () {
+              moveLeft();
+            },
+            onSwipeUp: () {
+              moveRight();
+            }  ,
+            child: Column(
+              children: [
+
+                ItemRouletteButton(
+                    move: canMoveLeft() ? moveLeft : null,
+                    icon: Icons.keyboard_arrow_left,
+                  isVertical: true,
+                ),
+                Expanded(child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: children
+                )),
+
+                ItemRouletteButton(
+                    move: canMoveRight() ? moveRight : null,
+                    icon: Icons.keyboard_arrow_right,
+
+                  isVertical: true,
+                ),
+
+              ],
+            ),
+          );
+        }
+
         return Column(
           mainAxisAlignment: widget.alignment ?? MainAxisAlignment.center,
           children: [
@@ -251,29 +300,16 @@ class _ItemsRouletteState<T> extends State<ItemsRoulette<T>> {
                       ),*/
                        widget.items.length == 0 ?
                       Center(
-                        child: Text('Nenhum item encontrado')
+                        child: Text(
+                            widget.emptyCase ??
+                            'Nenhum item encontrado')
                       ) :
                            Padding(
                              padding: widget.internalContentPadding ?? EdgeInsets.only(),
                              child: BlocBuilder<ItemsMovementRouletteBloc, int>(
                                bloc: movementBloc,
                                builder: (context, state) {
-                                 List<Widget> children = [];
-
-                                 if (widget.firstActionButton != null) {
-                                   children.add(
-                                       widget.firstActionButton!  );
-                                 }
-
-
-                                 int index = 0;
-                                 for (T item in getViewableItems()) {
-
-                                   children.add(
-                                        getItemCard(item, index, trackItemSize)
-                                       );
-                                   index++;
-                                 }
+                                 List<Widget> children = getRouletteChildren(trackItemSize);
 
 
                                  if(widget.showNextItemsAsPreview) {
@@ -391,6 +427,26 @@ class _ItemsRouletteState<T> extends State<ItemsRoulette<T>> {
         );
       },
     );
+  }
+
+  List<Widget> getRouletteChildren(double? trackItemSize) {
+    List<Widget> children = [];
+
+    if (widget.firstActionButton != null) {
+      children.add(
+          widget.firstActionButton!  );
+    }
+
+
+    int index = 0;
+    for (T item in getViewableItems()) {
+
+      children.add(
+           getItemCard(item, index, trackItemSize)
+          );
+      index++;
+    }
+    return children;
   }
 }
 

@@ -8,7 +8,7 @@ enum ItemSize {
   smallish,
   smallishLarge,
   small,
-
+  almostNormal,
   normal,
   medium,
   big,

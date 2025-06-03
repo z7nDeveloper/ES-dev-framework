@@ -2,7 +2,7 @@
 
 
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 abstract class FlexibleThemeColors {
 
@@ -11,6 +11,13 @@ abstract class FlexibleThemeColors {
 
   Color getTextContrastToBackground();
 
+  getCardColor() {
+    return Color(0xff222222);
+  }
+
+  Color getIncorrectColor() {
+    return Colors.red.shade700;
+  }
 
   Color getSlightDeactivatedColor();
   Color getDeactivatedColor();
@@ -20,6 +27,21 @@ abstract class FlexibleThemeColors {
   Color getDarkLight();
 
   Color getMainColor();
+
+  Color getLighterMainColor() {
+    return getMainColor();
+  }
+
+  Color getClickableBlue(bool background) {
+    if(background) {
+      return getMainColor();
+    }
+    return getAppBackgroundColor();
+  }
+
+
+
+  Color getDarkMainColor();
 
   Color getReadableGray();
 

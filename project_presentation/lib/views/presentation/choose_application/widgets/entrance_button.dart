@@ -1,6 +1,7 @@
 
 
 import 'package:common_extensions/extensions/basic_types/for_double.dart';
+import 'package:flexible_structures/responsive/media_queries.dart';
 import 'package:flexible_structures/responsive/responsive.dart';
 import 'package:flexible_structures/widgets/animations/flipper/flipper_card.dart';
 import 'package:flexible_structures/widgets/animations/flipper/flipper_screen.dart';
@@ -8,6 +9,7 @@ import 'package:flexible_structures/widgets/base_templates/buttons/icon_card_but
 import 'package:flexible_structures/widgets/display/dynamic_card.dart';
 import 'package:flexible_structures/widgets/interactions/visiblity_on_hover/visibility_hover_cubit.dart';
 import 'package:flexible_structures/widgets/interactions/visiblity_on_hover/visibility_on_hover_element.dart';
+import 'package:flexible_structures/widgets/responsive/item_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flexible_structures/widgets/base_templates/buttons/card_button_v1.dart';
@@ -25,10 +27,11 @@ class EntranceButton extends StatefulWidget {
     required this.applicationOption,
     required this.buttonUtility,
     required this.isOnCenter,
-    required this.everBeenInCenter
+    required this.everBeenInCenter, this.isOnCenterMobile=false
   });
 
   final bool isOnCenter;
+  final bool isOnCenterMobile;
   final bool everBeenInCenter;
   final ApplicationOptionStyling optionStyling;
   final ApplicationOption applicationOption;
@@ -98,6 +101,8 @@ class _EntranceButtonState extends State<EntranceButton> {
       defaultWidget:
 
       /**/IconCardButtonWithStackedFloatingIcon(
+        buttonSize: widget.isOnCenter ? 20 : 12,
+        itemSize: ItemSize.big,
         icon: icon,
         useFloating: false,
         notUseMobileVersion: true,
@@ -108,7 +113,7 @@ class _EntranceButtonState extends State<EntranceButton> {
       ),
     );
 
-    if(widget.applicationOption.enabled == false) {
+    if(widget.applicationOption.enabled == false && isDesktop()) {
       card = FlippedScreen(
         boolValue: flippedNotifier,
 
@@ -149,6 +154,7 @@ class _EntranceButtonState extends State<EntranceButton> {
   }
 
   Color getBackgroundColor() =>
+  widget.isOnCenterMobile && isMobile() ? Colors.red :
       widget.applicationOption.enabled ?
       (widget.applicationOption.backgroundColor ??
           GetIt.I.get<FlexibleThemeColors>().getAppBackgroundColor()

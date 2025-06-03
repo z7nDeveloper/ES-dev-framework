@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 
 class OpacityOnHover extends StatelessWidget {
   final Widget child;
-  const OpacityOnHover({Key? key, required this.child}) : super(key: key);
+  final ValueNotifier<bool>? hoverNotifier;
+  const OpacityOnHover({Key? key, required this.child,  this.hoverNotifier}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return OnHover(builder: (isHovered) {
+    return OnHover(
+        hoverNotifier: hoverNotifier,
+        builder: (isHovered) {
       return AnimatedOpacity(
         duration: Duration(milliseconds: 200),
         opacity: isHovered ? 1 : 0.15,

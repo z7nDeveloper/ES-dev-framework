@@ -7,7 +7,8 @@ class OnHover extends StatefulWidget {
 
   final Widget Function(bool isHovered) builder;
 
-  const OnHover({Key? key, required this.builder}) : super(key: key);
+  final ValueNotifier<bool>? hoverNotifier;
+  const OnHover({Key? key, required this.builder, this.hoverNotifier}) : super(key: key);
 
   @override
   _OnHoverState createState() => _OnHoverState();
@@ -30,6 +31,9 @@ class _OnHoverState extends State<OnHover> {
   }
 
   void onEntered(bool isHovered){
+    if(widget.hoverNotifier != null){
+      widget.hoverNotifier!.value = isHovered;
+    }
     setState(() {
       this.isHovered = isHovered;
     });

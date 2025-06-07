@@ -95,7 +95,7 @@ Widget renderIcon(GraphicalItem item,
       element = Container(
         height: item.info?['height'],
         child: Image.asset(item.item,
-          fit: item.info?['fit'],
+          fit:  item.info?['fit'],
           errorBuilder:
               item.info?['errorWidget'] ??
               (_,__,___){

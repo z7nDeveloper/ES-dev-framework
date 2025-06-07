@@ -34,6 +34,7 @@ class CustomNavigationRail extends StatefulWidget {
   final bool expandsOnHover;
   final bool useTextButtons;
   final ItemSize? logoSmallSize;
+  final Function()? onLogoTap;
 
   const CustomNavigationRail({
     super.key,
@@ -44,6 +45,7 @@ class CustomNavigationRail extends StatefulWidget {
     this.expandsOnHover=true,
     this.useTextButtons=true,
     this.logoSmallSize,
+    this.onLogoTap,
   });
 
   @override
@@ -145,6 +147,7 @@ class _CustomNavigationRailState extends State<CustomNavigationRail> {
                       width: currentMaxWidth,
                       child: Center(
                         child: AppLogo(
+                          onTap: widget.onLogoTap,
                           itemSize: context.read<NavigationRailBloc>().extended ? ItemSize.small :
                           (widget.logoSmallSize ?? ItemSize.verySmall),
                           variant: context.read<NavigationRailBloc>().extended ?  null : '_without_name',
@@ -156,6 +159,7 @@ class _CustomNavigationRailState extends State<CustomNavigationRail> {
                     if(widget.navigationItems.footerItem != null)
                     _buildDestination(-1,  widget.navigationItems.footerItem!,
                     onTap: widget.navigationItems.onFooterSelected,
+                      useBadge: false,
                     ),
                   ],
                 ),
@@ -208,7 +212,7 @@ class _CustomNavigationRailState extends State<CustomNavigationRail> {
   ValueNotifier<List<Widget>> widgetListNotifier = ValueNotifier([]);
 
 
-  Widget _buildDestination(int index, BottomNavigationBarItem destination, {Function()? onTap}) {
+  Widget _buildDestination(int index, BottomNavigationBarItem destination, {Function()? onTap, bool? useBadge=null}) {
     bool isSelected = index == widget.selectedIndex;
 
     Widget destinationContent = Row(
@@ -254,14 +258,19 @@ class _CustomNavigationRailState extends State<CustomNavigationRail> {
             child: InkWell(
               onTap: onTap ?? () => widget.onDestinationSelected(index),
               child:
+
               isMobile() || widget.useBadgeInDesktop
                   ?
+              (useBadge != null && !useBadge ?
+              destinationContent :
               Badge(
                 label: Text('0'),
                 alignment: Alignment.bottomRight,
-                offset: Offset(0, 0),
+                offset: Offset(5, 0),
                 child: destinationContent,
-              ) : destinationContent,
+              )
+              )
+                  : destinationContent,
             ),
           ),
           if(useDivider)

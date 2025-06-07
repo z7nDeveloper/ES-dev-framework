@@ -8,17 +8,22 @@ class BackgroundCard extends StatelessWidget {
   final double? opacity;
   final double? width;
   final double? height;
-  const BackgroundCard({Key? key, required this.child, this.color, this.width, this.height, this.opacity,}) : super(key: key);
+  final BorderRadiusGeometry? border;
+  const BackgroundCard({Key? key, required this.child,
+    this.border,
+    this.color, this.width, this.height, this.opacity,}) : super(key: key);
 
   static bool useMoreShadows = false;
+  static double? defaultOpacity ;
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       fit: StackFit.passthrough, 
       children: [
-        Positioned.fill( 
+        Positioned.fill(
           child: Opacity(
-            opacity: opacity ?? 0.15,
+            opacity: opacity ?? defaultOpacity ?? 0.15,
             child: Container(
               width: width,
               height: height,
@@ -39,7 +44,7 @@ class BackgroundCard extends StatelessWidget {
                     offset: Offset(0, 1),
                   ),
                 ],
-                borderRadius: BorderRadius.all(
+                borderRadius: border ?? BorderRadius.all(
                   Radius.circular(12.0),
                 ),
               ),

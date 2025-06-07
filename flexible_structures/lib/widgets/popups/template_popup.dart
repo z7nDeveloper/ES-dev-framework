@@ -48,6 +48,7 @@ class TemplatePopup extends StatefulWidget {
 class _TemplatePopupState extends State<TemplatePopup> {
   resolveContainerWidth() {
     Map<ItemSize, double> sizes = {
+      ItemSize.large: MediaQuery.of(context).size.width * 0.8,
       ItemSize.big: min(MediaQuery.of(context).size.width * 0.66, 720),
       ItemSize.normal: 600,
       ItemSize.small: returnAppropriateGlobal(mobile: 320, defaultResult: 344),
@@ -61,6 +62,7 @@ class _TemplatePopupState extends State<TemplatePopup> {
     ItemSize popupSize = widget.popupHeight ?? widget.popupSize;
 
     Map<ItemSize, double> sizes = {
+      ItemSize.large: MediaQuery.of(context).size.height,
       ItemSize.big: MediaQuery.of(context).size.height,
       ItemSize.normal: 450,
       ItemSize.small: 270,

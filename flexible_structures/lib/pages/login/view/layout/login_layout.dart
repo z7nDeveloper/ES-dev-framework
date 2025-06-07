@@ -2,15 +2,18 @@
 
 
 import 'package:flexible_structures/pages/login/bloc/login_form_bloc.dart';
+import 'package:flexible_structures/pages/login/view/style/login_style.dart';
 import 'package:flexible_structures/pages/login/view/widgets/test_demo_button.dart';
 import 'package:flexible_structures/widgets/base_templates/buttons/card_button_v1.dart';
 import 'package:flexible_structures/widgets/display/background_card.dart';
 import 'package:flexible_structures/widgets/graphical_item/app_logo.dart';
 import 'package:flexible_structures/widgets/interactions/input_spacer.dart';
+import 'package:flexible_structures/widgets/layout/quadruple_screen.dart';
 import 'package:flexible_structures/widgets/layout/template_flex_screen.dart';
 import 'package:flexible_structures/widgets/theme_related/app_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import '../widgets/auth_buttons.dart';
 import '../widgets/forgot_password.dart';
@@ -44,12 +47,22 @@ class DefaultLoginLayout extends StatelessWidget {
     return TemplateFlexScreen(
 
       structure: TemplateFlexStructure(
-        structureFlex: [1,12,1],
-        bodyLeft: AppContainer(
-          color: Colors.red,
+        structureFlex: GetIt.I.get<LoginStyle>().getStructureFlex(),
+        bodyPadding: EdgeInsets.zero,
+        quadrupleFlex:
+        GetIt.I.get<LoginStyle>().getQuadrupleFlex()
+        ,
+        bodyLeft: BackgroundCard(
+          color: GetIt.I.get<LoginStyle>().getBodyBackgroundColor(),
+          opacity: 1,
+          //border: BorderRadius.only(),
           child: Column(
             children: [
 
+
+              Row(),
+              if(GetIt.I.get<LoginStyle>().isLogoCentered())
+              Spacer(),
               Expanded(
                   flex: 3,
                   child: AppLogo()
@@ -59,32 +72,32 @@ class DefaultLoginLayout extends StatelessWidget {
                   flex: 4,
                   child: Container(
                     child: Container(
-                      constraints: BoxConstraints(
-                        maxWidth: 480
+                      constraints:
+                      GetIt.I.get<LoginStyle>().getMaxWidth() == null ? null :
+                      BoxConstraints(
+                        maxWidth: GetIt.I.get<LoginStyle>().getMaxWidth()!
                       ),
-                      child: BackgroundCard(
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Flexible(
-                                  flex:2,
-                                  child: LoginForm(
-                                    appending: ForgotPassword(),
-                                  )),
-                              InputSpacer(),
-                              LoginConfirmButton(
-                                callLogin:
-                                (construction.state is LoginFailure) ?
-                                null :
-                                construction.onLogin
-                                ,
-                              ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Flexible(
+                                flex:2,
+                                child: LoginForm(
+                                  appending: ForgotPassword(),
+                                )),
+                            InputSpacer(),
+                            LoginConfirmButton(
+                              callLogin:
+                              (construction.state is LoginFailure) ?
+                              null :
+                              construction.onLogin
+                              ,
+                            ),
 
-                            ],
-                          ),
+                          ],
                         ),
                       ),
                     ),

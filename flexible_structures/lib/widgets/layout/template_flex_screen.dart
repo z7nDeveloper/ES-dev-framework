@@ -54,7 +54,7 @@ class TemplateFlexStructure {
     this.footerWrapper,
     this.actionsRight,
     this.footer,
-    this.structureFlex,
+    this.structureFlex, // appbar,body,footer,
     this.structurePadding,
     this.bodyPadding,
     this.bodyLeftBottom,

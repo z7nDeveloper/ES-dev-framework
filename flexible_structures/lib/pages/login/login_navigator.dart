@@ -1,5 +1,6 @@
 
 
+import 'package:flexible_structures/pages/login/view/style/login_style.dart';
 import 'package:flexible_structures/routes/app_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -17,7 +18,12 @@ import 'package:go_router/go_router.dart';
 
 class LoginRoute extends AppRoute {
 
-  LoginRoute( );
+  LoginRoute( ) {
+
+    if(!GetIt.I.isRegistered<LoginStyle>()) {
+      GetIt.I.registerSingleton<LoginStyle>(LoginStyle());
+    }
+  }
 
   Widget getPage(BuildContext context, GoRouterState state) {
     return LoginPage(

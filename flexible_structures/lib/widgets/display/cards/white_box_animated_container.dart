@@ -1,7 +1,9 @@
 
 
+import 'package:flexible_structures/widgets/theme_related/flexible_theme_colors.dart';
 
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class WhiteBoxAnimatedContainer extends StatelessWidget {
   final double width;
@@ -17,7 +19,9 @@ class WhiteBoxAnimatedContainer extends StatelessWidget {
       duration: Duration(milliseconds: 300),
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        color: Colors.grey.shade100, //Colors.grey[900],
+        color:
+         GetIt.I.get<FlexibleThemeColors>().getCardColor(),
+        //Colors.grey.shade100, //Colors.grey[900],
         boxShadow: [
           BoxShadow(
             color: Colors.black26,

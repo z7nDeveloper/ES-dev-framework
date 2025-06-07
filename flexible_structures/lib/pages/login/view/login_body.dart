@@ -5,6 +5,7 @@ import 'package:flexible_structures/pages/login/bloc/login_form_bloc.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import '../data/models/user_credentials.dart';
 import '../login_navigator.dart';
@@ -27,6 +28,9 @@ class _LoginPageBodyState extends State<LoginBody> {
 
   @override
   initState() {
+
+
+
     super.initState();
     form = FormGroup({
       'email': FormControl<String>(

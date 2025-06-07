@@ -35,6 +35,8 @@ class CustomNavigationRail extends StatefulWidget {
   final bool useTextButtons;
   final ItemSize? logoSmallSize;
   final Function()? onLogoTap;
+  final bool lessHorizontalPaddingInMobile;
+  final double? outsidePaddingToAvoidOverflow;
 
   const CustomNavigationRail({
     super.key,
@@ -46,6 +48,8 @@ class CustomNavigationRail extends StatefulWidget {
     this.useTextButtons=true,
     this.logoSmallSize,
     this.onLogoTap,
+    this.outsidePaddingToAvoidOverflow,
+    this.lessHorizontalPaddingInMobile=false,
   });
 
   @override
@@ -90,6 +94,7 @@ class _CustomNavigationRailState extends State<CustomNavigationRail> {
       height: isMobile() ? 66 : context.height,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: isMobile() ? MainAxisAlignment.center : MainAxisAlignment.start,
         children: [
           MouseRegion(
             onEnter: (_) => setState(() {
@@ -102,7 +107,9 @@ class _CustomNavigationRailState extends State<CustomNavigationRail> {
               context.read<NavigationRailBloc>().add(NavigationRailCollapsed());
             }),
             child: WhiteBoxAnimatedContainer(
-              width: isMobile()  ? context.width :   context.read<NavigationRailBloc>().extended ? 200 : 70,
+              width: isMobile()  ? context.width-(
+              widget.outsidePaddingToAvoidOverflow ?? 0
+              ) :   context.read<NavigationRailBloc>().extended ? 200 : 70,
               height: context.height,
               //constraints: BoxConstraints(maxWidth: 70,),
               child:
@@ -241,7 +248,9 @@ class _CustomNavigationRailState extends State<CustomNavigationRail> {
           ? 16 :
       useDivider ? 16 :
       24, horizontal:
-      //isMobile() ? 12 :
+      (
+          widget.lessHorizontalPaddingInMobile &&
+          isMobile()) ? 12 :
       24),
       child: Column(
         children: [

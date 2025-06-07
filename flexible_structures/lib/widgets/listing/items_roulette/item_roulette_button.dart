@@ -16,8 +16,10 @@ class ItemRouletteButton extends StatefulWidget {
   final Function()? move;
   final IconData icon;
   final bool isVertical;
+  final Color? backgroundColor;
   const ItemRouletteButton({super.key, required this.move,
     required this.icon,
+    this.backgroundColor,
     this.isVertical = false
   });
 
@@ -46,7 +48,9 @@ class _ItemRouletteButtonState extends State<ItemRouletteButton> {
   Widget build(BuildContext context) {
 
     Color? buttonBackground = Color(0x136da7db);
-    Color? buttonBackgroundHovered = ( Theme.of(context).elevatedButtonTheme
+    Color? buttonBackgroundHovered =
+    widget.backgroundColor ??
+    ( Theme.of(context).elevatedButtonTheme
         .style?.backgroundColor?.resolve(Set<MaterialState>()) ??
         Colors.blue);
     //buttonBackground = buttonBackgroundHovered;

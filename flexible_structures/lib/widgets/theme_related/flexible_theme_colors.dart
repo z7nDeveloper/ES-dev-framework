@@ -45,4 +45,9 @@ abstract class FlexibleThemeColors {
 
   Color getReadableGray();
 
+
+  Color? getWhiteBoxBackgroundColor() {
+    return null;
+  }
+
 }

@@ -37,7 +37,8 @@ class CustomNavigationRail extends StatefulWidget {
   final Function()? onLogoTap;
   final bool lessHorizontalPaddingInMobile;
   final double? outsidePaddingToAvoidOverflow;
-
+  final bool keepSpaceBetweenFooterAndLogo; // if false, removees a spacer that exists between logo and footer
+  final bool useExpandedIcons; // if true, uses a space between in the icon list
   const CustomNavigationRail({
     super.key,
     required this.navigationItems,
@@ -49,7 +50,9 @@ class CustomNavigationRail extends StatefulWidget {
     this.logoSmallSize,
     this.onLogoTap,
     this.outsidePaddingToAvoidOverflow,
+    this.keepSpaceBetweenFooterAndLogo=true,
     this.lessHorizontalPaddingInMobile=false,
+    this.useExpandedIcons=false,
   });
 
   @override
@@ -144,11 +147,12 @@ class _CustomNavigationRailState extends State<CustomNavigationRail> {
                         child: widget.navigationItems.profileItem!.icon,
                       ),
                     ),
-                    if(widget.navigationItems.homeItem != null)
-                    _buildDestination(0, widget.navigationItems.homeItem!),
-                    for (int i = 0; i < widget.navigationItems.items.length; i++)
-                      _buildDestination(i+1, widget.navigationItems.items[i]),
+                    _buildNavigationIcons(),
+                    widget.useExpandedIcons ? SizedBox(
+    height: 16,
+    ) :
                     Spacer(),
+
                     AnimatedContainer(
                       duration: Duration(milliseconds: 300),
                       width: currentMaxWidth,
@@ -161,13 +165,15 @@ class _CustomNavigationRailState extends State<CustomNavigationRail> {
                         ),
                       ),
                     ),
-                    if(widget.navigationItems.footerItem != null)
+                    if(widget.navigationItems.footerItem != null && (widget.keepSpaceBetweenFooterAndLogo))
                     Spacer(),
                     if(widget.navigationItems.footerItem != null)
-                    _buildDestination(-1,  widget.navigationItems.footerItem!,
-                    onTap: widget.navigationItems.onFooterSelected,
-                      useBadge: false,
-                    ),
+                    Container(
+                        child: _buildDestination(-1,  widget.navigationItems.footerItem!,
+                        onTap: widget.navigationItems.onFooterSelected,
+                        useBadge: false,
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -180,6 +186,33 @@ class _CustomNavigationRailState extends State<CustomNavigationRail> {
 );
   }
 
+  Widget _buildNavigationIcons() {
+
+
+    List<Widget> icons = [
+      if(widget.navigationItems.homeItem != null)
+        _buildDestination(0, widget.navigationItems.homeItem!),
+      for (int i = 0; i < widget.navigationItems.items.length; i++)
+        _buildDestination(i+1, widget.navigationItems.items[i]),
+
+    ];
+
+    if(widget.useExpandedIcons) {
+      return Expanded(
+        flex: 2,
+        child:  Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+          children: icons,
+        ),
+      );
+    }
+
+    return Column(
+      children: icons,
+    );
+
+  }
   updateList() {
     List<Widget> children = [
 

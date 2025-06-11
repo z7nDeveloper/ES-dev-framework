@@ -20,6 +20,8 @@ class WhiteBoxAnimatedContainer extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color:
+
+        GetIt.I.get<FlexibleThemeColors>().getWhiteBoxBackgroundColor() ??
          GetIt.I.get<FlexibleThemeColors>().getCardColor(),
         //Colors.grey.shade100, //Colors.grey[900],
         boxShadow: [

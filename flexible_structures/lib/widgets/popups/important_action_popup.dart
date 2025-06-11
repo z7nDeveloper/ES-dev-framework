@@ -4,7 +4,9 @@
 import 'package:flexible_structures/widgets/base_templates/buttons/card_button_v1.dart';
 import 'package:flexible_structures/widgets/popups/template_popup.dart';
 import 'package:flexible_structures/widgets/responsive/item_sizes.dart';
+import 'package:flexible_structures/widgets/theme_related/flexible_theme_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 class ImportantActionPopup extends StatelessWidget {
@@ -19,8 +21,16 @@ class ImportantActionPopup extends StatelessWidget {
       popupSize: ItemSize.normal,
         child: Column(
           children: [
-            Text('Você tem certeza que quer continuar?'),
-            Text(details),
+            Spacer(),
+            Text('Você tem certeza que quer continuar?',
+            style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            SizedBox(height: 12,),
+            Text(details,
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+              color: GetIt.I.get<FlexibleThemeColors>().getIncorrectColor()
+            ),
+            ),
             Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
